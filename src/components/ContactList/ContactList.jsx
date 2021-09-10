@@ -1,20 +1,32 @@
-import PropTypes, { number } from 'prop-types';
+import PropTypes from 'prop-types';
 import { List } from './ContactList.styled';
 import Contact from 'components/Contact/Contact';
-import { v4 as uuidv4 } from 'uuid';
 
 const ContactList = ({ contacts, onDelete }) => (
   <List>
-    {contacts.map(({ id, name, number }) => (
-      <li key={uuidv4()} id={id}>
-        <Contact name={name} number={number} onDelete={() => onDelete(id)} />
-      </li>
-    ))}
+    {contacts.map(({ id, name, number }) => {
+      return (
+        <li key={id}>
+          <Contact
+            id={id}
+            name={name}
+            number={number}
+            onDelete={() => onDelete(id)}
+          />
+        </li>
+      );
+    })}
   </List>
 );
 
 ContactList.propTypes = {
-  contacts: PropTypes.array.isRequired,
+  contacts: PropTypes.arrayOf(
+    PropTypes.exact({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      number: PropTypes.string,
+    }),
+  ).isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 ContactList.defaultProps = {

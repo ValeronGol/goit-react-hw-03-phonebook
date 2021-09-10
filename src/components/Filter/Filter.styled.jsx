@@ -11,9 +11,8 @@ export const Title = styled.h4`
 export const Input = styled.input`
   border-radius: 2px;
 
-  &:hover,
   &:focus {
     border-color: #3493ff;
-    border-width: thick;
+    border-width: 4px;
   }
 `;

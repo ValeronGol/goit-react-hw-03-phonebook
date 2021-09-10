@@ -14,19 +14,22 @@ class ContactForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    let contactForAdd = { name: this.state.name, number: this.state.number };
-    this.props.onSubmitData(contactForAdd);
 
-    this.reset();
+    this.props.onSubmitData({
+      name: this.state.name,
+      number: this.state.number,
+    });
+
+    this.resetState();
   };
 
-  reset = () => {
+  resetState = () => {
     this.setState({ name: '', number: '' });
   };
   render() {
     return (
       <ConteinerForm>
-        <form type="submit" onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <Label>
             Name
             <Input

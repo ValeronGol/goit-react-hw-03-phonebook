@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { Conteiner } from './App.styled';
 import ContactForm from 'components/ContactForm/ContactForm';
 import ContactList from 'components/ContactList/ContactList';
 import Filter from 'components/Filter/Filter';
+import { Conteiner } from './App.styled';
 
 class App extends Component {
   state = {
@@ -16,35 +16,32 @@ class App extends Component {
     filter: '',
   };
 
-  formSubmitHandler = data => {
-    this.repeatControl(data);
+  formSubmit = data => {
+    this.setState(prevState => {
+      const newContact = { id: uuidv4(), name: data.name, number: data.number };
+      const duplicateContact = prevState.contacts.find(contact => {
+        return contact.name === data.name;
+      });
+      if (duplicateContact) {
+        alert(`${data.name} вже є у телефонній книзі!!!`);
+        return { ...prevState };
+      }
+      return this.setState({
+        ...this.state,
+        contacts: [...prevState.contacts, newContact],
+      });
+    });
   };
 
-  repeatControl = data => {
-    let nameArray = [];
-    nameArray = this.state.contacts.map(con => con.name);
-    if (!nameArray.includes(data.name)) {
-      let arrayCont = [];
-      arrayCont = [
-        ...this.state.contacts,
-        { id: uuidv4(), name: data.name, number: data.number },
-      ];
-      return this.setState({ ...this.state, contacts: arrayCont });
-    } else {
-      alert(`${data.name} вже є у телефонній книзі!!!`);
-    }
+  elementDelete = (contact, contactId) => {
+    return contact.filter(elem => elem.id !== contactId);
   };
 
-  elementDelete = (arr, idContact) => {
-    let newArr = arr.filter(elem => elem.id !== idContact);
-    return newArr;
-  };
-
-  deleteContactFromContactList = idContact => {
-    let newArrAfterDel = this.elementDelete(this.state.contacts, idContact);
+  deleteContactFromContactList = contactId => {
+    let newContacAtfterDel = this.elementDelete(this.state.contacts, contactId);
     this.setState({
       ...this.state,
-      contacts: [...newArrAfterDel],
+      contacts: [...newContacAtfterDel],
     });
   };
 
@@ -53,17 +50,16 @@ class App extends Component {
   };
 
   filterArr = fArr => {
-    let newArr = fArr.filter(cont =>
-      cont.name.toUpperCase().includes(this.state.filter),
+    return fArr.filter(cont =>
+      cont.name.toLowerCase().includes(this.state.filter.toLowerCase()),
     );
-    return newArr;
   };
 
   render() {
     return (
       <Conteiner>
         <h1>Phonebook</h1>
-        <ContactForm onSubmitData={this.formSubmitHandler} />
+        <ContactForm onSubmitData={this.formSubmit} />
         <h1>Contacts</h1>
         <Filter setFilterToState={this.setFilterToState} />
         <ContactList

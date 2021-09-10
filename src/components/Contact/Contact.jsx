@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import { Conteiner, Info } from './Contact.styled';
+import { Conteiner, Info, Button } from './Contact.styled';
 
 const Contact = ({ name, number, id, onDelete }) => (
   <Conteiner>
     <Info>{`${name}: ${number}`}</Info>
-    <button data-id={id} onClick={onDelete}>
+    <Button data-id={id} onClick={onDelete}>
       Delete
-    </button>
+    </Button>
   </Conteiner>
 );
 Contact.propTypes = {
