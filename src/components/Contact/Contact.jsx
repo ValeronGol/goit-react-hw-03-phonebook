@@ -10,9 +10,9 @@ const Contact = ({ name, number, id, onDelete }) => (
   </Conteiner>
 );
 Contact.propTypes = {
-  name: PropTypes.array.isRequired,
-  number: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 export default Contact;
