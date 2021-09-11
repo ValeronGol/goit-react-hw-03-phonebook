@@ -32,13 +32,10 @@ class App extends Component {
       });
     });
   };
-
-  elementDelete = (contact, contactId) => {
-    return contact.filter(elem => elem.id !== contactId);
-  };
-
-  deleteContactFromContactList = contactId => {
-    let newContacAtfterDel = this.elementDelete(this.state.contacts, contactId);
+  deleteContact = contactId => {
+    let newContacAtfterDel = this.state.contacts.filter(
+      contact => contact.id !== contactId,
+    );
     this.setState({
       ...this.state,
       contacts: [...newContacAtfterDel],
@@ -49,9 +46,9 @@ class App extends Component {
     this.setState({ ...this.state, filter: `${filterData}` });
   };
 
-  filterArr = fArr => {
-    return fArr.filter(cont =>
-      cont.name.toLowerCase().includes(this.state.filter.toLowerCase()),
+  filterContact = contacts => {
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(this.state.filter.toLowerCase()),
     );
   };
 
@@ -63,8 +60,8 @@ class App extends Component {
         <h1>Contacts</h1>
         <Filter setFilterToState={this.setFilterToState} />
         <ContactList
-          contacts={this.filterArr(this.state.contacts)}
-          onDelete={this.deleteContactFromContactList}
+          contacts={this.filterContact(this.state.contacts)}
+          onDelete={this.deleteContact}
         />
       </Conteiner>
     );
